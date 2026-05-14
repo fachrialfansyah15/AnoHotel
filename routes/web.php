@@ -24,7 +24,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // ✅ CRUD Kamar — Admin & Manajer
-    Route::middleware('role:admin,manajer')->group(function () {
+    Route::middleware('role:admin,manager')->group(function () {
         Route::post('rooms',           [RoomController::class, 'store'])->name('rooms.store');
         Route::put('rooms/{room}',     [RoomController::class, 'update'])->name('rooms.update');
         Route::delete('rooms/{room}',  [RoomController::class, 'destroy'])->name('rooms.destroy');
@@ -33,7 +33,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // ✅ Update Status Kamar — Admin, Manajer & Housekeeping
-    Route::middleware('role:admin,manajer,housekeeping')->group(function () {
+    Route::middleware('role:admin,manager,housekeeping')->group(function () {
         Route::patch('rooms/{room}/status', [RoomController::class, 'updateStatus'])->name('rooms.updateStatus');
     });
 
@@ -42,7 +42,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('rooms/{room}', [RoomController::class, 'show'])->name('rooms.show');
 
     // ✅ Kelola Reservasi — Admin, Manajer & Resepsionis
-    Route::middleware('role:admin,manajer,receptionist')->group(function () {
+    Route::middleware('role:admin,manager,receptionist')->group(function () {
         Route::put('reservations/{reservation}',    [ReservationController::class, 'update'])->name('reservations.update');
         Route::delete('reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
         Route::get('reservations/{reservation}/edit',[ReservationController::class, 'edit'])->name('reservations.edit');
@@ -63,17 +63,17 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // ✅ Kelola Pembayaran — Admin, Manajer & Resepsionis
-    Route::middleware('role:admin,manajer,receptionist')->group(function () {
+    Route::middleware('role:admin,manager,receptionist')->group(function () {
         Route::resource('payments', PaymentController::class);
     });
 
     // ✅ Laporan — Admin & Manajer
-    Route::middleware('role:admin,manajer')->group(function () {
+    Route::middleware('role:admin,manager')->group(function () {
         Route::get('reports', fn() => view('reports.index'))->name('reports.index');
     });
 
     // ✅ AI — Admin, Manajer, Resepsionis & Tamu (bukan Housekeeping)
-    Route::middleware('role:admin,manajer,receptionist,guest')->group(function () {
+    Route::middleware('role:admin,manager,receptionist,guest')->group(function () {
         Route::get('/ai/chat',      fn() => view('ai.chat'))->name('ai.chat');
         Route::get('/ai/recommend', fn() => view('ai.recommend'))->name('ai.recommend');
     });

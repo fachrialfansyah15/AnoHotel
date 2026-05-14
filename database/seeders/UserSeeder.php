@@ -12,7 +12,7 @@ class UserSeeder extends Seeder
     {
         $users = [
             ['name' => 'AnoHotel Admin',    'role' => 'admin'],
-            ['name' => 'AnoHotel Manajer',  'role' => 'manajer'],
+            ['name' => 'AnoHotel Manager',  'role' => 'manager'],
             ['name' => 'AnoHotel Receptionist',    'role' => 'receptionist'],
             ['name' => 'AnoHotel Housekeeping',   'role' => 'housekeeping'],
             ['name' => 'Guest',    'role' => 'guest'],

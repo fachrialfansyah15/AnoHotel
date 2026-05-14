@@ -17,7 +17,7 @@ class GuestController extends Controller
     public function create()
     {
         // Hanya user dengan role 'tamu' yang bisa jadi data tamu
-        $users = User::where('role', 'tamu')->get();
+        $users = User::where('role', 'guest')->get();
         return view('guest.create', compact('users'));
     }
 
@@ -41,7 +41,7 @@ class GuestController extends Controller
 
     public function edit(Guest $guest)
     {
-        $users = User::where('role', 'tamu')->get();
+        $users = User::where('role', 'guest')->get();
         return view('guest.edit', compact('guest', 'users'));
     }
 
