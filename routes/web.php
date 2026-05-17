@@ -32,7 +32,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('rooms/create',     [RoomController::class, 'create'])->name('rooms.create');
     Route::get('rooms/{room}/edit',[RoomController::class, 'edit'])->name('rooms.edit');
 
-    // ✅ Update Status Kamar — Admin, Manajer & Housekeeping
+    // ✅ Update Status Kamar — Admin & Manajer
     Route::patch('rooms/{room}/status', [RoomController::class, 'updateStatus'])->name('rooms.updateStatus');
 
     // ✅ Lihat Kamar — Semua role
@@ -60,7 +60,7 @@ Route::middleware(['auth'])->group(function () {
     // ✅ Laporan — Admin & Manajer
     Route::get('reports', fn() => view('reports.index'))->name('reports.index');
 
-    // ✅ AI — Admin, Manajer, Resepsionis & Tamu (bukan Housekeeping)
+    // ✅ AI — Admin, Manajer, Resepsionis & Tamu
     Route::get('/ai/chat',      fn() => view('ai.chat'))->name('ai.chat');
     Route::get('/ai/recommend', fn() => view('ai.recommend'))->name('ai.recommend');
 });

@@ -13,7 +13,6 @@ class AuthController extends Controller
         'admin',
         'manager',
         'receptionist',
-        'housekeeping',
         'guest',
     ];
 
