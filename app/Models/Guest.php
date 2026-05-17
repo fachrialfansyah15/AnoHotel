@@ -6,7 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Guest extends Model
 {
-    public function user() {
-        return $this->belongsTo(User::class);
+    protected $fillable = [
+        'name',
+        'phone',
+        'email'
+    ];
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
     }
 }

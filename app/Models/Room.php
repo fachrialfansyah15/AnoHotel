@@ -6,7 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Room extends Model
 {
-    public function reservations() {
+    protected $fillable = [
+        'type',
+        'price',
+        'status'
+    ];
+
+    public function reservations()
+    {
         return $this->hasMany(Reservation::class);
     }
 }
