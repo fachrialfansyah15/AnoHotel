@@ -40,5 +40,11 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('view-reports', fn (User $user) => in_array($user->role, ['admin', 'manager'], true));
 
         Gate::define('access-ai', fn (User $user) => in_array($user->role, ['admin', 'manager', 'receptionist', 'guest'], true));
+
+        // AI Gates
+        Gate::define('access-ai',            fn (User $user) => in_array($user->role, ['admin', 'manager', 'receptionist', 'guest'], true));
+        Gate::define('access-ai-tamu',       fn (User $user) => $user->role === 'guest');
+        Gate::define('access-ai-resepsionis',fn (User $user) => $user->role === 'receptionist');
+        Gate::define('access-ai-manajer',    fn (User $user) => in_array($user->role, ['admin', 'manager'], true));
     }
 }
