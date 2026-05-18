@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::define('manage-rooms', fn (User $user) => in_array($user->role, ['admin', 'manager'], true));
 
-        Gate::define('update-room-status', fn (User $user) => in_array($user->role, ['admin', 'manager', 'housekeeping'], true));
+        Gate::define('update-room-status', fn (User $user) => in_array($user->role, ['admin', 'manager'], true));
 
         Gate::define('manage-reservations', fn (User $user) => in_array($user->role, ['admin', 'manager', 'receptionist'], true));
 

@@ -69,7 +69,7 @@ class RoomController extends Controller
         return redirect()->route('rooms.index')->with('success', 'Kamar berhasil dihapus.');
     }
 
-    // Admin, Manajer & Housekeeping
+    // Admin & Manajer
     public function updateStatus(Request $request, Room $room)
     {
         $this->authorize('update-room-status');

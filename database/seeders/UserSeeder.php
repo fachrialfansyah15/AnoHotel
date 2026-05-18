@@ -14,7 +14,6 @@ class UserSeeder extends Seeder
             ['name' => 'AnoHotel Admin',    'role' => 'admin'],
             ['name' => 'AnoHotel Manager',  'role' => 'manager'],
             ['name' => 'AnoHotel Receptionist',    'role' => 'receptionist'],
-            ['name' => 'AnoHotel Housekeeping',   'role' => 'housekeeping'],
             ['name' => 'Guest',    'role' => 'guest'],
         ];
 
