@@ -22,11 +22,13 @@ class RoomController extends Controller
     // Admin & Manajer
     public function create()
     {
+        $this->authorize('manage-rooms');
         return view('rooms.create');
     }
 
     public function store(Request $request)
     {
+        $this->authorize('manage-rooms');
         $request->validate([
             'room_number'    => 'required|unique:rooms',
             'type'           => 'required|in:standard,deluxe,suite',
@@ -41,11 +43,13 @@ class RoomController extends Controller
 
     public function edit(Room $room)
     {
+        $this->authorize('manage-rooms');
         return view('rooms.edit', compact('room'));
     }
 
     public function update(Request $request, Room $room)
     {
+        $this->authorize('manage-rooms');
         $request->validate([
             'room_number'    => 'required|unique:rooms,room_number,' . $room->id,
             'type'           => 'required|in:standard,deluxe,suite',
@@ -60,13 +64,15 @@ class RoomController extends Controller
 
     public function destroy(Room $room)
     {
+        $this->authorize('manage-rooms');
         $room->delete();
         return redirect()->route('rooms.index')->with('success', 'Kamar berhasil dihapus.');
     }
 
-    // Admin, Manajer & Housekeeping
+    // Admin & Manajer
     public function updateStatus(Request $request, Room $room)
     {
+        $this->authorize('update-room-status');
         $request->validate([
             'status' => 'required|in:available,occupied,maintenance',
         ]);

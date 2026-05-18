@@ -12,6 +12,7 @@ class ReservationController extends Controller
     // Admin, Manajer, Resepsionis — lihat semua
     public function index()
     {
+        $this->authorize('manage-reservations');
         $reservations = Reservation::with(['user', 'room'])->latest()->get();
         return view('reservations.index', compact('reservations'));
     }
@@ -19,6 +20,7 @@ class ReservationController extends Controller
     // Tamu — lihat reservasi milik sendiri
     public function myReservations()
     {
+        $this->authorize('view-own-reservations');
         $reservations = Reservation::with('room')
             ->where('user_id', Auth::id())
             ->latest()
@@ -29,7 +31,7 @@ class ReservationController extends Controller
     public function show(Reservation $reservation)
     {
         // Tamu hanya bisa lihat milik sendiri
-        if (Auth::user()->role === 'tamu' && $reservation->user_id !== Auth::id()) {
+        if (Auth::user()->role === 'guest' && $reservation->user_id !== Auth::id()) {
             abort(403);
         }
         return view('reservations.show', $reservation->load(['room', 'payment']));
@@ -38,12 +40,14 @@ class ReservationController extends Controller
     // Admin, Resepsionis & Tamu
     public function create()
     {
+        $this->authorize('create-reservation');
         $rooms = Room::where('status', 'available')->get();
         return view('reservations.create', compact('rooms'));
     }
 
     public function store(Request $request)
     {
+        $this->authorize('create-reservation');
         $request->validate([
             'room_id'      => 'required|exists:rooms,id',
             'check_in'     => 'required|date|after_or_equal:today',
@@ -68,12 +72,14 @@ class ReservationController extends Controller
     // Admin, Manajer & Resepsionis
     public function edit(Reservation $reservation)
     {
+        $this->authorize('manage-reservations');
         $rooms = Room::all();
         return view('reservations.edit', compact('reservation', 'rooms'));
     }
 
     public function update(Request $request, Reservation $reservation)
     {
+        $this->authorize('manage-reservations');
         $request->validate([
             'status'       => 'required|in:pending,confirmed,checked_in,checked_out,cancelled',
             'check_in'     => 'required|date',
@@ -88,6 +94,7 @@ class ReservationController extends Controller
 
     public function destroy(Reservation $reservation)
     {
+        $this->authorize('manage-reservations');
         $reservation->delete();
         return redirect()->route('reservations.index')->with('success', 'Reservasi berhasil dihapus.');
     }

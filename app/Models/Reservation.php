@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
+#[Fillable(['user_id', 'room_id', 'check_in', 'check_out', 'total_guest', 'status', 'notes'])]
 class Reservation extends Model
 {
     protected $fillable = [
