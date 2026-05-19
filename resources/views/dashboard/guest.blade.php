@@ -165,7 +165,7 @@
 
         /* ── MAIN CONTENT AREA ── */
         .main {
-    margin-left: 260px;
+    margin-left: 120px;
     flex: 1;
     padding: 2rem 2rem 2rem 1.5rem;
     min-height: 100vh;
@@ -594,56 +594,11 @@
 
 <body>
 
-{{-- ── SIDEBAR ── --}}
-<aside class="sidebar">
-    <div class="logo-wrap">
-        <div class="logo-icon"><i class="fas fa-hotel text-[#041026] text-xs"></i></div>
-        <div class="logo-text">
-            <div class="logo-name">AnoHotel</div>
-            <div class="logo-sub">Luxury &amp; Comfort</div>
-        </div>
-    </div>
+<body>
 
-    <div class="nav-divider"></div>
-    <div class="nav-section-label">Main Console</div>
+@include('layouts.sidebar-guest')
 
-    <a href="/dashboard" class="nav-link active">
-        <span class="nav-icon"><i class="fas fa-chart-line"></i></span> Dashboard
-    </a>
-    <a href="/rooms" class="nav-link">
-        <span class="nav-icon"><i class="fas fa-door-open"></i></span> Rooms
-    </a>
-    <a href="/my-reservations" class="nav-link">
-        <span class="nav-icon"><i class="fas fa-calendar-check"></i></span> My Reservations
-    </a>
-    <a href="/my-payments" class="nav-link">
-        <span class="nav-icon"><i class="fas fa-credit-card"></i></span> My Payments
-    </a>
-
-    <div class="nav-divider"></div>
-    <div class="nav-section-label">Support Services</div>
-
-    <a href="#" class="nav-link">
-        <span class="nav-icon"><i class="fas fa-concierge-bell"></i></span> Services
-    </a>
-    <a href="#" class="nav-link">
-        <span class="nav-icon"><i class="fas fa-comments"></i></span> Messages
-    </a>
-    <a href="#" class="nav-link">
-        <span class="nav-icon"><i class="fas fa-user"></i></span> Profile
-    </a>
-
-    <div class="nav-spacer"></div>
-
-    <a href="/logout" class="nav-logout"
-       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-        <span class="nav-icon"><i class="fas fa-arrow-right-from-bracket"></i></span> Sign Out
-    </a>
-
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
-        @csrf
-    </form>
-</aside>
+<main class="main">
 
 {{-- ── MAIN CONTENT AREA ── --}}
 <main class="main">

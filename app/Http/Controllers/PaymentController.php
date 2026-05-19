@@ -13,19 +13,22 @@ class PaymentController extends Controller
      * ADMIN / MANAGER / RECEPTIONIST
      */
     public function index()
-    {
-        $this->authorize('manage-payments');
+{
+    $payments = Payment::with([
+        'reservation.user',
+        'reservation.room'
+    ])->latest()->get();
 
-        $payments = Payment::with([
-            'reservation.user',
-            'reservation.room'
-        ])->latest()->get();
+    $reservations = Reservation::with([
+        'user',
+        'room'
+    ])->get();
 
-        return view(
-            'payments.index',
-            compact('payments')
-        );
-    }
+    return view(
+        'payments.index',
+        compact('payments', 'reservations')
+    );
+}
 
     /**
      * GUEST
@@ -56,65 +59,45 @@ class PaymentController extends Controller
     /**
      * CREATE
      */
-    public function create()
-    {
-        $this->authorize('manage-payments');
+   public function create()
+{
+    $reservations = Reservation::with([
+        'user',
+        'room'
+    ])->get();
 
-        $reservations = Reservation::with([
-            'user',
-            'room'
-        ])->get();
-
-        return view(
-            'payments.create',
-            compact('reservations')
-        );
-    }
+    return view(
+        'payments.create',
+        compact('reservations')
+    );
+}
 
     /**
      * STORE
      */
     public function store(Request $request)
-    {
-        $this->authorize('manage-payments');
+{
+    $this->authorize('manage-payments');
 
-        $request->validate([
-            'reservation_id' => 'required|exists:reservations,id',
-            'amount' => 'required|numeric|min:0',
-            'method' => 'required|in:cash,transfer,card',
-            'status' => 'required|in:unpaid,paid,refunded',
-        ]);
+    $validated = $request->validate([
+        'reservation_id' => 'required|exists:reservations,id',
+        'amount' => 'required|numeric|min:0',
+        'method' => 'required|in:cash,transfer,card',
+        'status' => 'required|in:unpaid,paid,refunded',
+    ]);
 
-        $data = [
-            'reservation_id' => $request->reservation_id,
-            'amount' => $request->amount,
-            'method' => $request->method,
-            'status' => $request->status,
-        ];
+    if ($validated['status'] === 'paid') {
+        $validated['paid_at'] = now();
+    } else {
+        $validated['paid_at'] = null;
+    }
 
-        if ($request->status === 'paid') {
-            $data['paid_at'] = now();
-        }
-
-        Payment::create($data);
-
-        if (Auth::user()->role === 'guest') {
+    Payment::create($validated);
 
     return redirect()
-        ->route('payments.my')
-        ->with(
-            'success',
-            'Payment created successfully.'
-        );
+        ->route('payments.index')
+        ->with('success', 'Payment created successfully.');
 }
-
-return redirect()
-    ->route('payments.index')
-    ->with(
-        'success',
-        'Payment created successfully.'
-    );
-    }
 
     /**
      * SHOW

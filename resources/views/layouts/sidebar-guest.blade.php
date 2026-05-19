@@ -78,42 +78,6 @@
 
     <div class="nav-divider"></div>
 
-    {{-- SUPPORT --}}
-    <div class="nav-label">
-        Support Services
-    </div>
-
-    <nav class="sidebar-nav">
-
-        <a href="#"
-           class="sidebar-link">
-
-            <i class="fas fa-concierge-bell"></i>
-
-            Services
-
-        </a>
-
-        <a href="#"
-           class="sidebar-link">
-
-            <i class="fas fa-comments"></i>
-
-            Messages
-
-        </a>
-
-        <a href="#"
-           class="sidebar-link">
-
-            <i class="fas fa-user"></i>
-
-            Profile
-
-        </a>
-
-    </nav>
-
     {{-- LOGOUT --}}
     <div class="sidebar-bottom">
 

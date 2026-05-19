@@ -14,20 +14,27 @@ class ReservationController extends Controller
      * Lihat semua reservasi
      */
     public function index()
-    {
-        $this->authorize('manage-reservations');
+{
+    $this->authorize('manage-reservations');
 
-        $reservations = Reservation::with([
-            'user',
-            'room',
-            'payment'
-        ])->latest()->get();
+    $reservations = Reservation::with([
+        'user',
+        'room'
+    ])->latest()->get();
 
-        return view(
-            'reservations.index',
-            compact('reservations')
-        );
-    }
+    $rooms = Room::where(
+        'status',
+        'available'
+    )->get();
+
+    return view(
+        'reservations.index',
+        compact(
+            'reservations',
+            'rooms'
+        )
+    );
+}
 
     /**
      * GUEST

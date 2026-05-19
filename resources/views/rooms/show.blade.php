@@ -384,9 +384,9 @@
 
             <div class="thumbs">
                 <img src="{{ asset('images/Rooms.png') }}" class="active" alt="Room">
-                <img src="{{ asset('images/room-1.jpg') }}" alt="Room">
-                <img src="{{ asset('images/room-2.jpg') }}" alt="Room">
-                <img src="{{ asset('images/room-3.jpg') }}" alt="Room">
+                <img src="{{ asset('images/Room1.jpg') }}" alt="Room">
+                <img src="{{ asset('images/Room2.jpg') }}" alt="Room">
+                <img src="{{ asset('images/Room3.png') }}" alt="Room">
             </div>
         </div>
 

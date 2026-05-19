@@ -16,13 +16,6 @@
 
 <body class="min-h-screen bg-[#041026] text-white">
 
-{{-- SIDEBAR --}}
-@if(auth()->user()->role === 'guest')
-    @include('layouts.sidebar-guest')
-@else
-    @include('layouts.sidebar-management')
-@endif
-
 {{-- MAIN --}}
 <main class="ml-[260px] min-h-screen p-8">
 
