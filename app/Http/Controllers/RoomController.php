@@ -27,19 +27,22 @@ class RoomController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $this->authorize('manage-rooms');
-        $request->validate([
-            'room_number'    => 'required|unique:rooms',
-            'type'           => 'required|in:standard,deluxe,suite',
-            'price_per_night'=> 'required|numeric|min:0',
-            'capacity'       => 'required|integer|min:1',
-            'description'    => 'nullable|string',
-        ]);
+{
+    $validated = $request->validate([
+        'room_number' => 'required|string|max:255|unique:rooms,room_number',
+        'type' => 'required|string|max:255',
+        'price_per_night' => 'required|numeric|min:0',
+        'capacity' => 'required|integer|min:1',
+        'status' => 'required|in:available,occupied,maintenance',
+        'description' => 'nullable|string',
+    ]);
 
-        Room::create($request->all());
-        return redirect()->route('rooms.index')->with('success', 'Kamar berhasil ditambahkan.');
-    }
+    Room::create($validated);
+
+    return redirect()
+        ->route('rooms.index')
+        ->with('success', 'Room created successfully.');
+}
 
     public function edit(Room $room)
     {

@@ -2,29 +2,47 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['user_id', 'room_id', 'check_in', 'check_out', 'total_guest', 'status', 'notes'])]
 class Reservation extends Model
 {
     protected $fillable = [
-        'room_id',
-        'guest_id',
-        'check_in',
-        'check_out',
-        'status'
-    ];
+    'user_id',
+    'room_id',
+    'check_in',
+    'check_out',
+    'total_guest',
+    'notes',
+    'status'
+];
+
+    /*
+    |--------------------------------------------------------------------------
+    | RELATION : USER
+    |--------------------------------------------------------------------------
+    */
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | RELATION : ROOM
+    |--------------------------------------------------------------------------
+    */
 
     public function room()
     {
         return $this->belongsTo(Room::class);
     }
 
-    public function guest()
-    {
-        return $this->belongsTo(Guest::class);
-    }
+    /*
+    |--------------------------------------------------------------------------
+    | RELATION : PAYMENT
+    |--------------------------------------------------------------------------
+    */
 
     public function payment()
     {

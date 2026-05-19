@@ -9,10 +9,13 @@ use Illuminate\Database\Eloquent\Model;
 class Room extends Model
 {
     protected $fillable = [
-        'type',
-        'price',
-        'status'
-    ];
+    'room_number',
+    'type',
+    'price_per_night',
+    'capacity',
+    'status',
+    'description',
+];
 
     public function reservations()
     {

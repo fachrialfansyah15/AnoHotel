@@ -80,7 +80,14 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $this->authorize('manage-users');
-        $user->delete();
+        if ($user->id === auth()->id()) {
+    return back()->with(
+        'error',
+        'You cannot delete your own account.'
+    );
+}
+
+$user->delete();
         return redirect()->route('users.index')->with('success', 'User berhasil dihapus.');
     }
 }

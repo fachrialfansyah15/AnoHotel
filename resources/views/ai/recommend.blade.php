@@ -152,7 +152,7 @@
     <div class="recommend-grid">
 
         <div class="room-card">
-            <img src="{{ asset('images/recommend-honeymoon.jpg') }}" alt="Honeymoon Suite">
+            <img src="{{ asset('images/HoneyMoonSuite.png') }}" alt="Honeymoon Suite">
 
             <div class="room-content">
                 <span class="tag">Best for Honeymoon</span>
@@ -176,7 +176,7 @@
         </div>
 
         <div class="room-card">
-            <img src="{{ asset('images/recommend-business.jpg') }}" alt="Executive Smart Room">
+            <img src="{{ asset('images/ExecutiveSmartRoom.png') }}" alt="Executive Smart Room">
 
             <div class="room-content">
                 <span class="tag">Business Trip</span>
@@ -200,7 +200,7 @@
         </div>
 
         <div class="room-card">
-            <img src="{{ asset('images/recommend-family.jpg') }}" alt="Family Grand Suite">
+            <img src="{{ asset('images/FamilyGrandSuite.png') }}" alt="Family Grand Suite">
 
             <div class="room-content">
                 <span class="tag">Family Favorite</span>

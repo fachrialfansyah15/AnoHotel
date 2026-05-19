@@ -1,66 +1,221 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ReservationController;
-use App\Http\Controllers\GuestController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\AuthController;
 
-// Public
-Route::get('/', fn() => redirect()->route('login'));
+/*
+|--------------------------------------------------------------------------
+| WEB ROUTES
+|--------------------------------------------------------------------------
+*/
 
-// Auth
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-Route::post('/register', [AuthController::class, 'register'])->name('register.post');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+/*
+|--------------------------------------------------------------------------
+| PUBLIC
+|--------------------------------------------------------------------------
+*/
 
-// Protected
+Route::get('/', fn () => redirect()->route('login'));
+
+/*
+|--------------------------------------------------------------------------
+| AUTH
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/login', [AuthController::class, 'showLoginForm'])
+    ->name('login');
+
+Route::post('/login', [AuthController::class, 'login'])
+    ->name('login.post');
+
+Route::get('/register', [AuthController::class, 'showRegisterForm'])
+    ->name('register');
+
+Route::post('/register', [AuthController::class, 'register'])
+    ->name('register.post');
+
+Route::post('/logout', [AuthController::class, 'logout'])
+    ->name('logout');
+
+/*
+|--------------------------------------------------------------------------
+| PROTECTED ROUTES
+|--------------------------------------------------------------------------
+*/
+
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('/dashboard', fn() => view('dashboard'))->name('dashboard');
+    /*
+    |--------------------------------------------------------------------------
+    | DASHBOARD
+    |--------------------------------------------------------------------------
+    */
 
-    // ✅ CRUD User — Admin only
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->name('dashboard');
+
+    /*
+    |--------------------------------------------------------------------------
+    | USERS
+    |--------------------------------------------------------------------------
+    */
+
     Route::resource('users', UserController::class);
 
-    // ✅ CRUD Kamar — Admin & Manajer
-    Route::post('rooms',           [RoomController::class, 'store'])->name('rooms.store');
-    Route::put('rooms/{room}',     [RoomController::class, 'update'])->name('rooms.update');
-    Route::delete('rooms/{room}',  [RoomController::class, 'destroy'])->name('rooms.destroy');
-    Route::get('rooms/create',     [RoomController::class, 'create'])->name('rooms.create');
-    Route::get('rooms/{room}/edit',[RoomController::class, 'edit'])->name('rooms.edit');
+    /*
+    |--------------------------------------------------------------------------
+    | ROOMS
+    |--------------------------------------------------------------------------
+    */
 
-    // ✅ Update Status Kamar — Admin & Manajer
-    Route::patch('rooms/{room}/status', [RoomController::class, 'updateStatus'])->name('rooms.updateStatus');
+    Route::resource('rooms', RoomController::class);
 
-    // ✅ Lihat Kamar — Semua role
-    Route::get('rooms',        [RoomController::class, 'index'])->name('rooms.index');
-    Route::get('rooms/{room}', [RoomController::class, 'show'])->name('rooms.show');
+    Route::patch(
+        'rooms/{room}/status',
+        [RoomController::class, 'updateStatus']
+    )->name('rooms.updateStatus');
 
-    // ✅ Kelola Reservasi — Admin, Manajer & Resepsionis
-    Route::put('reservations/{reservation}',    [ReservationController::class, 'update'])->name('reservations.update');
-    Route::delete('reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
-    Route::get('reservations/{reservation}/edit',[ReservationController::class, 'edit'])->name('reservations.edit');
-    Route::get('reservations',                  [ReservationController::class, 'index'])->name('reservations.index');
+    /*
+    |--------------------------------------------------------------------------
+    | RESERVATIONS
+    |--------------------------------------------------------------------------
+    */
 
-    // ✅ Buat Reservasi — Admin, Resepsionis & Tamu
-    Route::get('reservations/create',  [ReservationController::class, 'create'])->name('reservations.create');
-    Route::post('reservations',        [ReservationController::class, 'store'])->name('reservations.store');
+    /*
+|--------------------------------------------------------------------------
+| RESERVATIONS
+|--------------------------------------------------------------------------
+*/
 
-    // ✅ Lihat Reservasi Sendiri — Tamu
-    Route::get('my-reservations',         [ReservationController::class, 'myReservations'])->name('reservations.my');
-    Route::get('my-reservations/{reservation}', [ReservationController::class, 'show'])->name('reservations.show');
-    Route::get('my-payments',             [PaymentController::class, 'myPayments'])->name('payments.my');
+/**
+ * MANAGEMENT
+ */
+Route::resource(
+    'reservations',
+    ReservationController::class
+)->except([
+    'index'
+]);
 
-    // ✅ Kelola Pembayaran — Admin, Manajer & Resepsionis
-    Route::resource('payments', PaymentController::class);
+/**
+ * ADMIN / MANAGER / RECEPTIONIST
+ */
+Route::get(
+    '/reservations',
+    [ReservationController::class, 'index']
+)->name('reservations.index');
 
-    // ✅ Laporan — Admin & Manajer
-    Route::get('reports', fn() => view('reports.index'))->name('reports.index');
+/**
+ * GUEST
+ */
+Route::get(
+    '/my-reservations',
+    [ReservationController::class, 'myReservations']
+)->name('reservations.my');
 
-    // ✅ AI — Admin, Manajer, Resepsionis & Tamu
-    Route::get('/ai/chat',      fn() => view('ai.chat'))->name('ai.chat');
-    Route::get('/ai/recommend', fn() => view('ai.recommend'))->name('ai.recommend');
+    /*
+    |--------------------------------------------------------------------------
+    | GUEST PAGES
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get(
+        '/my-reservations',
+        [ReservationController::class, 'myReservations']
+    )->name('reservations.my');
+
+    Route::get(
+        '/my-payments',
+        [PaymentController::class, 'myPayments']
+    )->name('payments.my');
+
+    /*
+    |--------------------------------------------------------------------------
+    | PAYMENTS
+    |--------------------------------------------------------------------------
+    */
+
+   /*
+|--------------------------------------------------------------------------
+| PAYMENTS
+|--------------------------------------------------------------------------
+*/
+
+/**
+ * MANAGEMENT
+ */
+Route::resource(
+    'payments',
+    PaymentController::class
+)->except([
+    'index'
+]);
+
+/**
+ * ADMIN / MANAGER / RECEPTIONIST
+ */
+Route::get(
+    '/payments',
+    [PaymentController::class, 'index']
+)->name('payments.index');
+
+/**
+ * GUEST
+ */
+Route::get(
+    '/my-payments',
+    [PaymentController::class, 'myPayments']
+)->name('payments.my');
+    /*
+    |--------------------------------------------------------------------------
+    | REPORTS
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/reports', function () {
+
+    $totalRevenue = \App\Models\Payment::sum('amount');
+
+    $totalReservations = \App\Models\Reservation::count();
+
+    $totalGuests = \App\Models\User::where(
+        'role',
+        'guest'
+    )->count();
+
+    $availableRooms = \App\Models\Room::where(
+        'status',
+        'available'
+    )->count();
+
+    return view('reports.index', compact(
+        'totalRevenue',
+        'totalReservations',
+        'totalGuests',
+        'availableRooms'
+    ));
+
+})->name('reports.index');
+
+    /*
+    |--------------------------------------------------------------------------
+    | AI PAGES
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/ai/chat', function () {
+        return view('ai.chat');
+    })->name('ai.chat');
+
+    Route::get('/ai/recommend', function () {
+        return view('ai.recommend');
+    })->name('ai.recommend');
+
 });

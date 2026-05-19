@@ -54,9 +54,11 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
+        // Melakukan percobaan login
         if (! Auth::attempt($credentials, $request->boolean('remember'))) {
+            // Mengembalikan pesan error universal yang akan ditangkap oleh $errors->any() di Blade
             return back()->withErrors([
-                'email' => 'Email atau password tidak valid.',
+                'loginError' => 'Username atau password salah.',
             ])->onlyInput('email');
         }
 

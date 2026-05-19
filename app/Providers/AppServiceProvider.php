@@ -9,7 +9,7 @@ use Illuminate\Support\ServiceProvider;
 class AppServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * Register services
      */
     public function register(): void
     {
@@ -17,28 +17,122 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap any application services.
+     * Bootstrap services
      */
     public function boot(): void
     {
-        Gate::define('manage-users', fn (User $user) => $user->role === 'admin');
+        Gate::define('admin-only', fn (User $user) => $user->role === 'admin' );
+        /*
+        |--------------------------------------------------------------------------
+        | ADMIN
+        |--------------------------------------------------------------------------
+        */
 
-        Gate::define('manage-rooms', fn (User $user) => in_array($user->role, ['admin', 'manager'], true));
+        Gate::define('admin-only', function (User $user) {
+            return $user->role === 'admin';
+        });
 
-        Gate::define('update-room-status', fn (User $user) => in_array($user->role, ['admin', 'manager'], true));
+        /*
+        |--------------------------------------------------------------------------
+        | USERS
+        |--------------------------------------------------------------------------
+        */
 
-        Gate::define('manage-reservations', fn (User $user) => in_array($user->role, ['admin', 'manager', 'receptionist'], true));
+        Gate::define('manage-users', function (User $user) {
+            return $user->role === 'admin';
+        });
 
-        Gate::define('create-reservation', fn (User $user) => in_array($user->role, ['admin', 'receptionist', 'guest'], true));
+        /*
+        |--------------------------------------------------------------------------
+        | ROOMS
+        |--------------------------------------------------------------------------
+        */
 
-        Gate::define('view-own-reservations', fn (User $user) => $user->role === 'guest');
+        Gate::define('manage-rooms', function (User $user) {
+            return in_array($user->role, [
+                'admin',
+                'manager'
+            ]);
+        });
 
-        Gate::define('manage-payments', fn (User $user) => in_array($user->role, ['admin', 'manager', 'receptionist'], true));
+        Gate::define('update-room-status', function (User $user) {
+            return in_array($user->role, [
+                'admin',
+                'manager'
+            ]);
+        });
 
-        Gate::define('view-own-payments', fn (User $user) => $user->role === 'guest');
+        /*
+        |--------------------------------------------------------------------------
+        | RESERVATIONS
+        |--------------------------------------------------------------------------
+        */
 
-        Gate::define('view-reports', fn (User $user) => in_array($user->role, ['admin', 'manager'], true));
+        Gate::define('manage-reservations', function (User $user) {
+            return in_array($user->role, [
+                'admin',
+                'manager',
+                'receptionist'
+            ]);
+        });
 
-        Gate::define('access-ai', fn (User $user) => in_array($user->role, ['admin', 'manager', 'receptionist', 'guest'], true));
+        Gate::define('create-reservation', function (User $user) {
+            return in_array($user->role, [
+                'admin',
+                'receptionist',
+                'guest'
+            ]);
+        });
+
+        Gate::define('view-own-reservations', function (User $user) {
+            return $user->role === 'guest';
+        });
+
+        /*
+        |--------------------------------------------------------------------------
+        | PAYMENTS
+        |--------------------------------------------------------------------------
+        */
+
+        Gate::define('manage-payments', function (User $user) {
+            return in_array($user->role, [
+                'admin',
+                'manager',
+                'receptionist'
+            ]);
+        });
+
+        Gate::define('view-own-payments', function (User $user) {
+            return $user->role === 'guest';
+        });
+
+        /*
+        |--------------------------------------------------------------------------
+        | REPORTS
+        |--------------------------------------------------------------------------
+        */
+
+        Gate::define('view-reports', function (User $user) {
+            return in_array($user->role, [
+                'admin',
+                'manager'
+            ]);
+        });
+        
+
+        /*
+        |--------------------------------------------------------------------------
+        | AI
+        |--------------------------------------------------------------------------
+        */
+
+        Gate::define('access-ai', function (User $user) {
+            return in_array($user->role, [
+                'admin',
+                'manager',
+                'receptionist',
+                'guest'
+            ]);
+        });
     }
 }
