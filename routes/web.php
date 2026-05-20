@@ -88,13 +88,17 @@ Route::middleware(['auth'])->group(function () {
     // ✅ Lihat Kamar (Daftar) — Semua Role (Admin, Manager, Receptionist, Guest)
     Route::get('rooms', [RoomController::class, 'index'])->name('rooms.index');
 
-    // ✅ Kelola Kamar & Update Status — Admin & Manager
+    // ✅ Kelola Kamar — Admin & Manager
     Route::middleware('role:admin,manager')->group(function () {
         Route::post('rooms',            [RoomController::class, 'store'])->name('rooms.store');
         Route::get('rooms/create',      [RoomController::class, 'create'])->name('rooms.create');
         Route::put('rooms/{room}',      [RoomController::class, 'update'])->name('rooms.update');
         Route::delete('rooms/{room}',   [RoomController::class, 'destroy'])->name('rooms.destroy');
         Route::get('rooms/{room}/edit', [RoomController::class, 'edit'])->name('rooms.edit');
+    });
+
+    // ✅ Update Status Kamar — Admin, Manager & Housekeeping
+    Route::middleware('role:admin,manager,housekeeping')->group(function () {
         Route::patch('rooms/{room}/status', [RoomController::class, 'updateStatus'])->name('rooms.updateStatus');
     });
 

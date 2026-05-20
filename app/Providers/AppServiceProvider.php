@@ -57,7 +57,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('update-room-status', function (User $user) {
             return in_array($user->role, [
                 'admin',
-                'manager'
+                'manager',
+                'housekeeping'
             ], true);
         });
 

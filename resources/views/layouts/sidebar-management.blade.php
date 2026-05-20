@@ -32,6 +32,7 @@
 
         </a>
 
+        @if(auth()->check() && in_array(auth()->user()->role, ['admin', 'manager', 'receptionist', 'housekeeping']))
         <a href="/rooms"
            class="sidebar-link {{ request()->is('rooms*') ? 'active' : '' }}">
 
@@ -39,7 +40,9 @@
             Rooms
 
         </a>
+        @endif
 
+        @if(auth()->check() && in_array(auth()->user()->role, ['admin', 'manager', 'receptionist']))
         <a href="/reservations"
            class="sidebar-link {{ request()->is('reservations*') ? 'active' : '' }}">
 
@@ -47,7 +50,9 @@
             Reservations
 
         </a>
+        @endif
 
+        @if(auth()->check() && in_array(auth()->user()->role, ['admin', 'manager', 'receptionist']))
         <a href="/payments"
            class="sidebar-link {{ request()->is('payments*') ? 'active' : '' }}">
 
@@ -55,7 +60,9 @@
             Payments
 
         </a>
+        @endif
 
+        @if(auth()->check() && auth()->user()->role === 'admin')
         <a href="/users"
            class="sidebar-link {{ request()->is('users*') ? 'active' : '' }}">
 
@@ -63,7 +70,9 @@
             Users
 
         </a>
+        @endif
 
+        @if(auth()->check() && in_array(auth()->user()->role, ['admin', 'manager']))
         <a href="/reports"
            class="sidebar-link {{ request()->is('reports*') ? 'active' : '' }}">
 
@@ -71,6 +80,7 @@
             Reports
 
         </a>
+        @endif
 
         @if (auth()->check() && auth()->user()->role === 'receptionist')
             <a href="{{ route('ai.resepsionis.index') }}"
