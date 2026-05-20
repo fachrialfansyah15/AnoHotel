@@ -72,13 +72,19 @@
 
         </a>
 
-        <a href="/ai/chat"
-           class="sidebar-link {{ request()->is('ai/*') ? 'active' : '' }}">
-
-            <i class="fas fa-robot"></i>
-            AI Concierge
-
-        </a>
+        @if (auth()->check() && auth()->user()->role === 'receptionist')
+            <a href="{{ route('ai.resepsionis.index') }}"
+               class="sidebar-link {{ request()->is('ai/*') ? 'active' : '' }}">
+                <i class="fas fa-robot"></i>
+                AI Concierge
+            </a>
+        @elseif(auth()->check() && (auth()->user()->role === 'admin' || auth()->user()->role === 'manager'))
+            <a href="{{ route('ai.manajer.index') }}"
+               class="sidebar-link {{ request()->is('ai/*') ? 'active' : '' }}">
+                <i class="fas fa-robot"></i>
+                AI Insights & Reports
+            </a>
+        @endif
 
     </nav>
 

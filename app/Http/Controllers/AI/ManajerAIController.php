@@ -15,7 +15,7 @@ class ManajerAIController extends Controller
     public function index()
     {
         $this->authorize('access-ai-manajer');
-        return view('ai.manajer.index');
+        return view('ai.index_manajer');
     }
 
     public function insight(Request $request)

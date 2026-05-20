@@ -38,7 +38,7 @@
             flex: 1;
             margin-left: 260px;
             padding: 32px;
-            overflow: hidden;
+            overflow-y: auto;
         }
 
         .page-header { margin-bottom: 28px; }
@@ -102,6 +102,8 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            position: relative;
+            z-index: 10;
         }
 
         .sidebar-ai h3 {
@@ -455,13 +457,13 @@
         {{-- Quick Buttons --}}
         <div class="sidebar-ai glass">
             <h3>Quick Assistance</h3>
-            <button class="quick-btn" onclick="sendQuick('Kamar apa yang tersedia hari ini?')">🛏️ Kamar tersedia hari ini</button>
-            <button class="quick-btn" onclick="sendQuick('Apa saja fasilitas hotel?')">🏊 Fasilitas hotel</button>
-            <button class="quick-btn" onclick="sendQuick('Lihat status reservasi saya')">📅 Status reservasi saya</button>
-            <button class="quick-btn" onclick="sendQuick('Berapa harga kamar termurah?')">💳 Info harga kamar</button>
-            <button class="quick-btn" onclick="sendQuick('Jam berapa breakfast tersedia?')">🍽️ Jam breakfast</button>
-            <button class="quick-btn" onclick="sendQuick('Apakah ada layanan antar jemput bandara?')">🚕 Layanan airport pickup</button>
-            <button class="quick-btn" onclick="sendQuick('Bagaimana cara membatalkan reservasi?')">🧾 Bantuan reservasi</button>
+            <button type="button" class="quick-btn" onclick="sendQuick('Kamar apa yang tersedia hari ini?')">🛏️ Kamar tersedia hari ini</button>
+            <button type="button" class="quick-btn" onclick="sendQuick('Apa saja fasilitas hotel?')">🏊 Fasilitas hotel</button>
+            <button type="button" class="quick-btn" onclick="sendQuick('Lihat status reservasi saya')">📅 Status reservasi saya</button>
+            <button type="button" class="quick-btn" onclick="sendQuick('Berapa harga kamar termurah?')">💳 Info harga kamar</button>
+            <button type="button" class="quick-btn" onclick="sendQuick('Jam berapa breakfast tersedia?')">🍽️ Jam breakfast</button>
+            <button type="button" class="quick-btn" onclick="sendQuick('Apakah ada layanan antar jemput bandara?')">🚕 Layanan airport pickup</button>
+            <button type="button" class="quick-btn" onclick="sendQuick('Bagaimana cara membatalkan reservasi?')">🧾 Bantuan reservasi</button>
         </div>
 
         {{-- Chat Box --}}
@@ -476,10 +478,10 @@
                     Selamat datang di AnoHotel, <strong>{{ auth()->user()->name }}</strong>! ✨<br>
                     Ada yang bisa saya bantu hari ini?
                 </div>
-            </div>
 
-            <div class="typing" id="typing">
-                <span></span><span></span><span></span>
+                <div class="typing" id="typing">
+                    <span></span><span></span><span></span>
+                </div>
             </div>
 
             <div class="input-area">
@@ -614,8 +616,14 @@ async function sendChat() {
 }
 
 function sendQuick(text) {
-    document.getElementById('chatInput').value = text;
-    sendChat();
+    console.log("Quick button clicked: ", text);
+    const input = document.getElementById('chatInput');
+    if (input) {
+        input.value = text;
+        sendChat();
+    } else {
+        console.error("chatInput element not found!");
+    }
 }
 
 // ── REKOMENDASI ──

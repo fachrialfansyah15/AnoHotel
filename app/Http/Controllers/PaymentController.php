@@ -57,6 +57,32 @@ class PaymentController extends Controller
     }
 
     /**
+     * GUEST - PAY SIMULATION
+     */
+    public function pay(Payment $payment)
+    {
+        $this->authorize('view-own-payments');
+
+        // Pastikan payment milik user yang sedang login
+        if (Auth::user()->role === 'guest' && $payment->reservation->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        // Update payment status
+        $payment->update([
+            'status' => 'paid',
+            'paid_at' => now(),
+        ]);
+
+        // Update reservation status 
+        $payment->reservation->update([
+            'status' => 'confirmed'
+        ]);
+
+        return redirect()->back()->with('success', 'Pembayaran berhasil! Reservasi Anda sekarang berstatus Confirmed.');
+    }
+
+    /**
      * CREATE
      */
    public function create()

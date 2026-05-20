@@ -170,6 +170,21 @@
                 <p>Create an account to experience luxury</p>
             </div>
 
+            @if ($errors->any())
+                <div class="alert-error" style="display: flex; align-items: center; gap: 0.75rem; background: rgba(255, 107, 107, 0.1); border: 1px solid rgba(255, 107, 107, 0.3); padding: 0.85rem 1rem; margin-bottom: 1.8rem; color: #ff6b6b; font-size: 0.8rem; border-radius: 4px;">
+                    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px; stroke: #ff6b6b; fill: none; flex-shrink: 0;">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    <div>
+                        @foreach ($errors->all() as $error)
+                            <div style="display: block;">{{ $error }}</div>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+
             <form method="POST" action="/register">
                 @csrf
 
@@ -201,19 +216,51 @@
                     </div>
                 </div>
 
-                <div class="field">
-                    <label for="password">Password</label>
-                    <div class="input-wrap">
-                        <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="new-password" required>
-                        <span class="ico">
-                            <svg viewBox="0 0 24 24" stroke-width="1.5">
-                                <rect x="3" y="11" width="18" height="11" rx="2"/>
-                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                            </svg>
-                        </span>
-                        <span class="line"></span>
-                    </div>
+            <div class="field">
+                <label for="password">Password</label>
+                <div class="input-wrap">
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="••••••••"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                    <span class="ico">
+                        <svg viewBox="0 0 24 24" stroke-width="1.5">
+                            <rect x="3" y="11" width="18" height="11" rx="2"/>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                    </span>
+
+                <span class="line"></span>
                 </div>
+            </div>
+
+            <div class="field">
+                <label for="password_confirmation">Confirm Password</label>
+                <div class="input-wrap">
+                    <input
+                        type="password"
+                        id="password_confirmation"
+                        name="password_confirmation"
+                        placeholder="••••••••"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                    <span class="ico">
+                        <svg viewBox="0 0 24 24" stroke-width="1.5">
+                            <rect x="3" y="11" width="18" height="11" rx="2"/>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                    </span>
+
+                <span class="line"></span>
+            </div>
+        </div>
 
                 <button type="submit" class="btn"><span>Register</span></button>
             </form>

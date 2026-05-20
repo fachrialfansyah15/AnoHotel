@@ -116,7 +116,7 @@ class ReservationController extends Controller
             'notes' => 'nullable|string',
         ]);
 
-        Reservation::create([
+        $reservation = Reservation::create([
             'user_id' => Auth::id(),
             'room_id' => $request->room_id,
             'check_in' => $request->check_in,
@@ -124,6 +124,21 @@ class ReservationController extends Controller
             'total_guest' => $request->total_guest,
             'notes' => $request->notes,
             'status' => 'pending',
+        ]);
+
+        // Hitung total harga berdasarkan durasi menginap
+        $room = Room::find($request->room_id);
+        $checkIn = \Carbon\Carbon::parse($request->check_in);
+        $checkOut = \Carbon\Carbon::parse($request->check_out);
+        $days = $checkIn->diffInDays($checkOut);
+        $days = $days > 0 ? $days : 1;
+        
+        // Buat tagihan / payment otomatis
+        \App\Models\Payment::create([
+            'reservation_id' => $reservation->id,
+            'amount' => $room->price_per_night * $days,
+            'method' => 'transfer', // default
+            'status' => 'unpaid',
         ]);
 
         // Redirect sesuai role

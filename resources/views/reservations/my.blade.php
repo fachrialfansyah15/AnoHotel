@@ -738,11 +738,19 @@
         <div class="split-content-layout">
 
             <div class="left-list-side">
-                <div class="filter-nav-tabs">
-                    <a href="#" class="tab-item-link active">All Reservations</a>
-                    <a href="#" class="tab-item-link">Upcoming</a>
-                    <a href="#" class="tab-item-link">Completed</a>
-                    <a href="#" class="tab-item-link">Cancelled</a>
+                <div class="filter-nav-tabs" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                    <div style="display: flex; gap: 1.5rem;">
+                        <a href="#" class="tab-item-link active">All Reservations</a>
+                        <a href="#" class="tab-item-link">Upcoming</a>
+                        <a href="#" class="tab-item-link">Completed</a>
+                        <a href="#" class="tab-item-link">Cancelled</a>
+                    </div>
+
+                    @if(auth()->user()->role === 'guest')
+                    <a href="{{ route('reservations.create') }}" class="btn-luxury-view" style="background: linear-gradient(135deg, var(--gold-light), var(--gold)); color: #041026; border: none; box-shadow: 0 4px 15px rgba(212,175,55,0.25); border-radius: 8px;">
+                        <i class="fas fa-plus"></i> Book a Room
+                    </a>
+                    @endif
                 </div>
 
                 @forelse($reservations as $reservation)

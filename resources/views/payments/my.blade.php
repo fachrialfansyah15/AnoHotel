@@ -637,9 +637,18 @@
                             </td>
 
                             <td>
-                                <a href="#" class="action-icon-btn" title="View Invoice Receipt">
-                                    <i class="fas fa-arrow-up-right-from-square"></i>
-                                </a>
+                                @if(strtolower($payment->status) === 'unpaid' || strtolower($payment->status) === 'pending')
+                                    <form action="{{ route('payments.pay', $payment->id) }}" method="POST" onsubmit="return confirm('Proses pembayaran ini? (Simulasi)')">
+                                        @csrf
+                                        <button type="submit" style="background: linear-gradient(135deg, var(--gold-light), var(--gold)); color: #041026; padding: 0.45rem 1rem; border-radius: 6px; font-weight: 700; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 10px rgba(212,175,55,0.2);">
+                                            <i class="fas fa-credit-card"></i> Pay Now
+                                        </button>
+                                    </form>
+                                @else
+                                    <a href="#" class="action-icon-btn" title="View Invoice Receipt">
+                                        <i class="fas fa-arrow-up-right-from-square"></i>
+                                    </a>
+                                @endif
                             </td>
                         </tr>
                     @empty

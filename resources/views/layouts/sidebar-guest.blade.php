@@ -65,7 +65,7 @@
         </a>
 
         {{-- AI CONCIERGE --}}
-        <a href="{{ route('ai.chat') }}"
+        <a href="{{ route('ai.tamu.index') }}"
            class="sidebar-link {{ request()->is('ai/*') ? 'active' : '' }}">
 
             <i class="fas fa-robot"></i>

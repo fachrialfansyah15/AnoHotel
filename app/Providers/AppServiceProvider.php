@@ -21,7 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('admin-only', fn (User $user) => $user->role === 'admin' );
         /*
         |--------------------------------------------------------------------------
         | ADMIN
@@ -52,14 +51,14 @@ class AppServiceProvider extends ServiceProvider
             return in_array($user->role, [
                 'admin',
                 'manager'
-            ]);
+            ], true);
         });
 
         Gate::define('update-room-status', function (User $user) {
             return in_array($user->role, [
                 'admin',
                 'manager'
-            ]);
+            ], true);
         });
 
         /*
@@ -73,16 +72,15 @@ class AppServiceProvider extends ServiceProvider
                 'admin',
                 'manager',
                 'receptionist'
-            ]);
+            ], true);
         });
 
-<<<<<<< HEAD
         Gate::define('create-reservation', function (User $user) {
             return in_array($user->role, [
                 'admin',
                 'receptionist',
                 'guest'
-            ]);
+            ], true);
         });
 
         Gate::define('view-own-reservations', function (User $user) {
@@ -100,7 +98,7 @@ class AppServiceProvider extends ServiceProvider
                 'admin',
                 'manager',
                 'receptionist'
-            ]);
+            ], true);
         });
 
         Gate::define('view-own-payments', function (User $user) {
@@ -117,9 +115,8 @@ class AppServiceProvider extends ServiceProvider
             return in_array($user->role, [
                 'admin',
                 'manager'
-            ]);
+            ], true);
         });
-        
 
         /*
         |--------------------------------------------------------------------------
@@ -133,16 +130,22 @@ class AppServiceProvider extends ServiceProvider
                 'manager',
                 'receptionist',
                 'guest'
-            ]);
+            ], true);
         });
-=======
-        Gate::define('access-ai', fn (User $user) => in_array($user->role, ['admin', 'manager', 'receptionist', 'guest'], true));
 
-        // AI Gates
-        Gate::define('access-ai',            fn (User $user) => in_array($user->role, ['admin', 'manager', 'receptionist', 'guest'], true));
-        Gate::define('access-ai-tamu',       fn (User $user) => $user->role === 'guest');
-        Gate::define('access-ai-resepsionis',fn (User $user) => $user->role === 'receptionist');
-        Gate::define('access-ai-manajer',    fn (User $user) => in_array($user->role, ['admin', 'manager'], true));
->>>>>>> AI-Integration
+        Gate::define('access-ai-tamu', function (User $user) {
+            return $user->role === 'guest';
+        });
+
+        Gate::define('access-ai-resepsionis', function (User $user) {
+            return $user->role === 'receptionist';
+        });
+
+        Gate::define('access-ai-manajer', function (User $user) {
+            return in_array($user->role, [
+                'admin',
+                'manager'
+            ], true);
+        });
     }
 }

@@ -482,6 +482,33 @@
         </div>
     </div>
 
+    @if(auth()->check() && auth()->user()->role === 'guest' && $room->status === 'available')
+        <div class="bottom-actions">
+            <p>
+                Tertarik dengan kamar ini? Pesan sekarang untuk mengamankan kamar impian Anda.
+            </p>
+
+            <div class="action-buttons">
+                <a href="{{ route('reservations.create', ['room_id' => $room->id]) }}" class="btn btn-edit">
+                    <i class="fas fa-calendar-plus"></i>
+                    Book This Room
+                </a>
+            </div>
+        </div>
+    @elseif(auth()->check() && auth()->user()->role === 'guest' && $room->status !== 'available')
+        <div class="bottom-actions">
+            <p>
+                Mohon maaf, kamar ini sedang tidak tersedia untuk dipesan saat ini.
+            </p>
+            <div class="action-buttons">
+                <button disabled class="btn" style="background: #e2e8f0; color: #94a3b8; cursor: not-allowed;">
+                    <i class="fas fa-ban"></i>
+                    Not Available
+                </button>
+            </div>
+        </div>
+    @endif
+
     @can('manage-rooms')
         <div class="bottom-actions">
             <p>

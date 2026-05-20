@@ -13,7 +13,7 @@ class ResepsionisAIController extends Controller
     public function index()
     {
         $this->authorize('access-ai-resepsionis');
-        return view('ai.resepsionis.index');
+        return view('ai.index_resepsionis');
     }
 
     public function cariKamar(Request $request)

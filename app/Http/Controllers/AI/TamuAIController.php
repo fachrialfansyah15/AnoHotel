@@ -14,7 +14,7 @@ class TamuAIController extends Controller
     public function index()
     {
         $this->authorize('access-ai-tamu');
-        return view('ai.tamu.index');
+        return view('ai.index_tamu');
     }
 
     public function chat(Request $request)
