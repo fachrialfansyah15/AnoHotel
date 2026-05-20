@@ -1232,5 +1232,68 @@
     }
 </script>
 
+<script>
+// Filter Room Logic
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.querySelector('.search-wrapper input');
+    const selects = document.querySelectorAll('.filter-select');
+    if (!searchInput || selects.length < 3) return;
+
+    const tbody = document.querySelector('tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+
+    function filterAndSortRooms() {
+        const query = searchInput.value.toLowerCase();
+        const typeFilter = selects[0].value;
+        const statusFilter = selects[1].value;
+        const sortFilter = selects[2].value;
+
+        let visibleRows = [];
+
+        rows.forEach(row => {
+            const text = row.innerText.toLowerCase();
+            const typeText = row.querySelector('.type-badge') ? row.querySelector('.type-badge').innerText : '';
+            const statusText = row.querySelector('.status-pill') ? row.querySelector('.status-pill').innerText : '';
+
+            const matchSearch = text.includes(query);
+            const matchType = typeFilter === 'All Types' || typeText.toLowerCase().includes(typeFilter.toLowerCase().replace(' room', ''));
+            const matchStatus = statusFilter === 'All Status' || statusText.toLowerCase() === statusFilter.toLowerCase();
+
+            if (matchSearch && matchType && matchStatus) {
+                row.style.display = '';
+                visibleRows.push(row);
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        if (sortFilter.includes('Price')) {
+            visibleRows.sort((a, b) => {
+                const pa = parseInt(a.querySelector('.price').innerText.replace(/\D/g, ''));
+                const pb = parseInt(b.querySelector('.price').innerText.replace(/\D/g, ''));
+                return pa - pb;
+            });
+        } else if (sortFilter.includes('Capacity')) {
+            visibleRows.sort((a, b) => {
+                const ca = parseInt(a.children[4].innerText);
+                const cb = parseInt(b.children[4].innerText);
+                return ca - cb;
+            });
+        } else {
+            visibleRows.sort((a, b) => {
+                const na = parseInt(a.querySelector('strong').innerText.replace(/\D/g, ''));
+                const nb = parseInt(b.querySelector('strong').innerText.replace(/\D/g, ''));
+                return na - nb;
+            });
+        }
+
+        visibleRows.forEach(row => tbody.appendChild(row));
+    }
+
+    searchInput.addEventListener('input', filterAndSortRooms);
+    selects.forEach(s => s.addEventListener('change', filterAndSortRooms));
+});
+</script>
+
 </body>
 </html>

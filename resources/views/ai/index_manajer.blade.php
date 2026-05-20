@@ -586,6 +586,12 @@ async function getLaporan() {
         loading.classList.remove('show');
     }
 }
+
+// ── INIT PADA SAAT HALAMAN DIMUAT ──
+document.addEventListener('DOMContentLoaded', () => {
+    // Memuat metrik awal secara otomatis tanpa harus klik Refresh
+    getInsight();
+});
 </script>
 
 </body>

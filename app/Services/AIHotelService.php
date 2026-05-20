@@ -47,7 +47,7 @@ class AIHotelService
             Log::warning("AI API Error (Fallback to Simulation)", ['status' => $response->status(), 'response' => $response->body()]);
             
             // Fallback response simulasi cerdas
-            $lowerPrompt = strtolower($prompt) . ' ' . strtolower($systemPrompt);
+            $lowerPrompt = strtolower($prompt);
             
             if (str_contains($lowerPrompt, 'komplain')) {
                 return "Langkah Penanganan:\n1. Dengarkan keluhan tamu dengan empati.\n2. Sampaikan permohonan maaf atas ketidaknyamanan.\n3. Segera koordinasikan dengan staf terkait (contoh: Housekeeping/Teknisi).\n4. Berikan kompensasi (seperti free minuman di lounge) jika perlu.";

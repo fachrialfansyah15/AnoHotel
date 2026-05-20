@@ -666,5 +666,44 @@
     </div>
 </main>
 
+<script>
+// Filter Payment Logic
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.querySelector('.search-wrapper input');
+    const selects = document.querySelectorAll('.filter-select');
+    if (!searchInput || selects.length < 2) return;
+
+    const tbody = document.querySelector('tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+
+    function filterPayments() {
+        const query = searchInput.value.toLowerCase();
+        const methodFilter = selects[0].value.toLowerCase();
+        const statusFilter = selects[1].value.toLowerCase();
+
+        rows.forEach(row => {
+            if (row.children.length === 1) return; // empty state row
+
+            const text = row.innerText.toLowerCase();
+            const methodText = row.children[2].innerText.toLowerCase();
+            const statusText = row.querySelector('.badge') ? row.querySelector('.badge').innerText.toLowerCase() : '';
+
+            const matchSearch = text.includes(query);
+            const matchMethod = !methodFilter || methodText.includes(methodFilter.replace('_', ' '));
+            const matchStatus = !statusFilter || statusText === statusFilter;
+
+            if (matchSearch && matchMethod && matchStatus) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    searchInput.addEventListener('input', filterPayments);
+    selects.forEach(s => s.addEventListener('change', filterPayments));
+});
+</script>
+
 </body>
 </html>

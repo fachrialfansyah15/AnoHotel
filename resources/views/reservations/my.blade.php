@@ -895,5 +895,42 @@
     </div>
 </main>
 
+<script>
+// Filter Reservation Tabs Logic
+document.addEventListener('DOMContentLoaded', () => {
+    const tabs = document.querySelectorAll('.tab-item-link');
+    const cards = document.querySelectorAll('.reservation-luxury-card');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', (e) => {
+            e.preventDefault();
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            const filter = tab.innerText.toLowerCase();
+
+            cards.forEach(card => {
+                const badge = card.querySelector('.status-badge-pill');
+                if (!badge) return;
+                const status = badge.innerText.toLowerCase();
+                
+                let show = false;
+                if (filter === 'all reservations') {
+                    show = true;
+                } else if (filter === 'upcoming') {
+                    show = status === 'pending' || status === 'confirmed' || status === 'checked in';
+                } else if (filter === 'completed') {
+                    show = status === 'completed';
+                } else if (filter === 'cancelled') {
+                    show = status === 'cancelled';
+                }
+
+                card.style.display = show ? 'flex' : 'none';
+            });
+        });
+    });
+});
+</script>
+
 </body>
 </html>

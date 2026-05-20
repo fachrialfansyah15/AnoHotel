@@ -156,6 +156,8 @@
         }
 
         .panel {
+            position:relative;
+            z-index:10;
             background:rgba(5,12,24,.82);
             border:1px solid var(--border);
             backdrop-filter:blur(18px);
@@ -241,6 +243,8 @@
         .actions {
             display:flex;
             gap:.6rem;
+            position:relative;
+            z-index:20;
         }
 
         .btn-action {
