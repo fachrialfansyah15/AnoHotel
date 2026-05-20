@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reservation extends Model
 {
+<<<<<<< HEAD
     protected $fillable = [
     'user_id',
     'room_id',
@@ -32,12 +33,17 @@ class Reservation extends Model
     | RELATION : ROOM
     |--------------------------------------------------------------------------
     */
+=======
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+>>>>>>> AI-Integration
 
-    public function room()
-    {
+    public function room() {
         return $this->belongsTo(Room::class);
     }
 
+<<<<<<< HEAD
     /*
     |--------------------------------------------------------------------------
     | RELATION : PAYMENT
@@ -46,6 +52,9 @@ class Reservation extends Model
 
     public function payment()
     {
+=======
+    public function payment() {
+>>>>>>> AI-Integration
         return $this->hasOne(Payment::class);
     }
 }
