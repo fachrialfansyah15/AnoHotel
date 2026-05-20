@@ -273,6 +273,18 @@
         </div>
     </section>
 
+    @if(session('success'))
+        <div style="background: rgba(16,185,129,.13); border: 1px solid rgba(16,185,129,.22); color: #34d399; padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem;">
+            <i class="fas fa-check-circle"></i> {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div style="background: rgba(239,68,68,.13); border: 1px solid rgba(239,68,68,.22); color: #f87171; padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem;">
+            <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
+        </div>
+    @endif
+
     <div class="content-grid">
 
         <div class="card">
@@ -385,6 +397,19 @@
                             Delete
                         </button>
                     </form>
+                @else
+                    @if($reservation->status !== 'cancelled' && $reservation->status !== 'checked_in' && $reservation->status !== 'checked_out')
+                        <form action="{{ route('reservations.cancel', $reservation->id) }}"
+                              method="POST"
+                              onsubmit="return confirm('Are you sure you want to cancel this reservation? Payment status will also be updated.')">
+                            @csrf
+
+                            <button type="submit" class="btn btn-red">
+                                <i class="fas fa-times"></i>
+                                Cancel Reservation
+                            </button>
+                        </form>
+                    @endif
                 @endcan
             </div>
         </div>

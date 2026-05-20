@@ -735,6 +735,12 @@
             </div>
         @endif
 
+        @if(session('error'))
+            <div class="w-full bg-[#ef4444]/10 border border-[#ef4444]/20 text-red-400 p-4 rounded-xl font-medium text-sm">
+                <i class="fas fa-exclamation-circle mr-2"></i> {{ session('error') }}
+            </div>
+        @endif
+
         <div class="split-content-layout">
 
             <div class="left-list-side">
@@ -798,10 +804,26 @@
                                 {{ str_replace('_', ' ', ucfirst($reservation->status)) }}
                             </span>
 
-                            <a href="{{ route('reservations.show', $reservation->id) }}" class="btn-luxury-view">
-                                View Details
-                                <i class="fas fa-chevron-right text-[10px]"></i>
-                            </a>
+                            <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+                                <a href="{{ route('reservations.show', $reservation->id) }}" class="btn-luxury-view">
+                                    View Details
+                                    <i class="fas fa-chevron-right text-[10px]"></i>
+                                </a>
+
+                                @if($reservation->status !== 'cancelled' && $reservation->status !== 'checked_in' && $reservation->status !== 'checked_out')
+                                    <form action="{{ route('reservations.cancel', $reservation->id) }}"
+                                          method="POST"
+                                          onsubmit="return confirm('Are you sure you want to cancel this reservation?')"
+                                          style="display: inline;">
+                                        @csrf
+
+                                        <button type="submit" class="btn-luxury-view" style="background: rgba(239,68,68,.1); border-color: rgba(239,68,68,.2); color: #f87171; cursor: pointer;">
+                                            <i class="fas fa-times"></i>
+                                            Cancel
+                                        </button>
+                                    </form>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 @empty

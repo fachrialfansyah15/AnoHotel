@@ -233,4 +233,41 @@ class ReservationController extends Controller
                 'Reservation deleted successfully.'
             );
     }
+
+    /**
+     * CANCEL RESERVATION (GUEST)
+     * Guest dapat membatalkan reservasi miliknya sendiri
+     */
+    public function cancelReservation(Reservation $reservation)
+    {
+        // Guest hanya boleh membatalkan reservasi miliknya sendiri
+        if (Auth::user()->role !== 'guest' || $reservation->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        // Tidak bisa membatalkan reservasi yang sudah checked_in atau checked_out
+        if (in_array($reservation->status, ['checked_in', 'checked_out', 'cancelled'])) {
+            return redirect()
+                ->route('reservations.show', $reservation->id)
+                ->with(
+                    'error',
+                    'Cannot cancel this reservation. It is ' . $reservation->status . '.'
+                );
+        }
+
+        // Update reservation status
+        $reservation->update(['status' => 'cancelled']);
+
+        // Update payment status
+        if ($reservation->payment) {
+            $reservation->payment->update(['status' => 'cancelled']);
+        }
+
+        return redirect()
+            ->route('reservations.show', $reservation->id)
+            ->with(
+                'success',
+                'Reservation cancelled successfully. Payment status has been updated.'
+            );
+    }
 }

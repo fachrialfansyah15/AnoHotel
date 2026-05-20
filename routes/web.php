@@ -128,6 +128,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware('role:guest')->group(function () {
         Route::get('my-reservations',                   [ReservationController::class, 'myReservations'])->name('reservations.my');
         Route::get('my-reservations/{reservation}',     [ReservationController::class, 'show'])->name('reservations.show');
+        Route::post('my-reservations/{reservation}/cancel', [ReservationController::class, 'cancelReservation'])->name('reservations.cancel');
     });
 
     /*

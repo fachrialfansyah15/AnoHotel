@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('reservation_id')->constrained()->onDelete('cascade');
             $table->decimal('amount', 10, 2);
             $table->enum('method', ['cash', 'transfer', 'card'])->default('cash');
-            $table->enum('status', ['unpaid', 'paid', 'refunded'])->default('unpaid');
+            $table->enum('status', ['unpaid', 'paid', 'refunded', 'cancelled'])->default('unpaid');
             $table->timestamp('paid_at')->nullable();
             $table->timestamps();
         });
