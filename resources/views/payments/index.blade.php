@@ -583,26 +583,25 @@
             <div class="modal-grid">
                 <div class="modal-group">
                     <label>Amount</label>
-                    <input type="number" name="amount" min="0" placeholder="Example: 500000" required>
+                    <input type="number" step="any" name="amount" min="0" placeholder="Example: 500000" required>
                 </div>
 
                 <div class="modal-group">
-    <label>Status</label>
-    <select name="status" required>
-        <option value="unpaid">Unpaid</option>
-        <option value="paid">Paid</option>
-        <option value="refunded">Refunded</option>
-    </select>
-</div>
-        
+                    <label>Method</label>
+                    <select name="method" required>
+                        <option value="cash">Cash</option>
+                        <option value="transfer">Transfer</option>
+                        <option value="card">Card</option>
+                    </select>
+                </div>
+            </div>
 
             <div class="modal-group">
                 <label>Status</label>
                 <select name="status" required>
-                    <option value="pending">Pending</option>
+                    <option value="unpaid">Unpaid</option>
                     <option value="paid">Paid</option>
-                    <option value="failed">Failed</option>
-                    <option value="cancelled">Cancelled</option>
+                    <option value="refunded">Refunded</option>
                 </select>
             </div>
 
@@ -680,6 +679,7 @@
                     <input type="number"
                            id="edit_amount"
                            name="amount"
+                           step="any"
                            required>
 
                 </div>

@@ -189,12 +189,7 @@ class ReservationController extends Controller
         $request->validate([
             'room_id' => 'required|exists:rooms,id',
 
-            'status' => 'required|in:
-                pending,
-                confirmed,
-                checked_in,
-                checked_out,
-                cancelled',
+            'status' => 'required|in:pending,confirmed,checked_in,checked_out,cancelled',
 
             'check_in' => 'required|date',
 

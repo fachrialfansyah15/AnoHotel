@@ -11,8 +11,9 @@ class Payment extends Model
     protected $fillable = [
         'reservation_id',
         'amount',
-        'payment_method',
-        'status'
+        'method',
+        'status',
+        'paid_at'
     ];
 
     public function reservation()
